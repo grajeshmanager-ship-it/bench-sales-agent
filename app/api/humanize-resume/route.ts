@@ -68,7 +68,12 @@ Then comma separated list of JD keywords now in the resume.`,
       ],
     })
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : ''
+const firstBlock = message.content[0]
+        const text = firstBlock.type === 'text' ? firstBlock.text : ''
+
+        if (!text) {
+                return NextResponse.json({ error: 'Claude did not return readable text. Please try again.' }, { status: 502 })
+        }
 
     const parts = text.split('---PITCH---')
     const resume = parts[0].trim()
